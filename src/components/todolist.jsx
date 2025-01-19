@@ -1,4 +1,6 @@
 import React, {useState} from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
 
 function ToDoList() {
   const [tasks, setTasks] = useState([]);
@@ -9,8 +11,10 @@ function ToDoList() {
   }
 
   function addTask() {
-    setTasks(task => [...task, newTask]);
-    setNewTask('');
+    if(newTask !== '') {
+      setTasks(task => [...task, newTask]);
+      setNewTask('');
+    }
   }
 
   function deleteTask(index) {
@@ -33,7 +37,7 @@ function ToDoList() {
     }
   }
 
-  const btn = "px-4 py-2 rounded-lg font-semibold shadow-sm transition-all";
+  const btn = "px-3 py-1 rounded-lg font-semibold shadow-sm transition-all";
 
   return(
     <div className="flex flex-col items-center space-y-4 w-full">
@@ -56,13 +60,13 @@ function ToDoList() {
         </button>
       </div>
 
-      <ol className="min-w-[400px] w-[100%] flex flex-col items-center">
+      <ol className="min-w-[400px] w-[80%] md:w-[100%] flex flex-col items-center">
         {tasks.map((task, index) => 
           <li 
-            className="flex justify-between items-center w-[calc(100%/2)] px-4 py-1 cursor-default hover:bg-blue-100 transition-all rounded-md"
+            className="flex justify-between items-center w-[calc(100%)] md:w-[calc(100%/1.5)] px-4 py-1 cursor-default hover:bg-blue-100 transition-all rounded-md"
             key={index}
           >
-            <span>
+            <span className="w-[calc(100%/2.5)] overflow-hidden overflow-ellipsis text-nowrap">
               {index+1+`. `} {task}
             </span>
             <div className="space-x-1">
@@ -70,19 +74,19 @@ function ToDoList() {
                 className={`${btn} bg-red-400 text-red-50 hover:bg-red-500`}
                 onClick={() => deleteTask(index)}
               >
-                Delete
+                <FontAwesomeIcon icon={faTrashCan} />
               </button>
               <button 
                 className={`${btn} bg-green-400 text-green-50 hover:bg-green-500`}
                 onClick={() => moveTaskUp(index)}
               >
-                Up
+                <FontAwesomeIcon icon={faArrowUp} />
               </button>
               <button 
                 className={`${btn} bg-yellow-400 text-yellow-50 hover:bg-yellow-500`}
                 onClick={() => moveTaskDown(index)}
               >
-                Down
+                <FontAwesomeIcon icon={faArrowDown} />
               </button>
             </div>
           </li>
